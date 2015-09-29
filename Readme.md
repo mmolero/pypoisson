@@ -11,34 +11,33 @@ for C++ GNU Compilation [PoissonRecon_v6_13](https://github.com/mmolero/PoissonR
 
 ##Installation 
 
-    ```python
-    python setup.py build
-
-    python setup.py install
-    ```
-
+```
+python setup.py build
+python setup.py install
+```
 
 tested on Windows & Linux
 
 
-
 ##Example
     
-    ```python
-    from pypoisson import poisson_reconstruction
-    from ply_from_array import points_normals_from, ply_from_array
 
-    filename = "horse_with_normals.xyz"
-    output_file = "horse_reconstruction.ply"
+```
+from pypoisson import poisson_reconstruction
+from ply_from_array import points_normals_from, ply_from_array
 
-    #Helper Function to read the xyz-normals point cloud file
-    points, normals = points_normals_from(filename)
+filename = "horse_with_normals.xyz"
+output_file = "horse_reconstruction.ply"
 
-    faces, vertices = poisson_reconstruction(points, normals, depth=10)
+#Helper Function to read the xyz-normals point cloud file
+points, normals = points_normals_from(filename)
 
-    #Helper function to save mesh to PLY Format
-    ply_from_array(vertices, faces, output_file=output_file)
-    ```
+faces, vertices = poisson_reconstruction(points, normals, depth=10)
+
+#Helper function to save mesh to PLY Format
+ply_from_array(vertices, faces, output_file=output_file)
+ 
+```
 
 
 ##Development
