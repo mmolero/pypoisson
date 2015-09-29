@@ -14,8 +14,88 @@ cdef extern from "PoissonRecon_v6_13/src/PoissonReconLib.h":
     cdef vector[int] int_data
     cdef vector[double] mem_data
 
-def poisson_reconstruction(points, normals, depth=8, full_depth=5, scale=1.10, samples_per_node=1.0, cg_depth=0.0,
+def poisson_reconstruction(points, normals, depth=8, full_depth=5, scale=1.1, samples_per_node=1.0, cg_depth=0.0,
                             enable_polygon_mesh=False, enable_density=False):
+
+    """
+
+    Python Binding of Screened Poisson Surface Reconstruction (Version 6.13)
+    more information, see http://www.cs.jhu.edu/~misha/Code/PoissonRecon/Version6.13/
+
+    Usage:
+
+        faces, vertices = poisson_reconstruction(points, normals, depth=10)
+
+
+
+
+    Parameters
+    ----------
+
+    points: array-like
+
+        list of oriented vertices with the x-, y-, and z-coordinates of the positions
+
+    normals: array-like
+
+        list of the x-, y-, and z-coordinates of the normals
+
+    depth: Integer
+
+        This integer is the maximum depth of the tree that will be used for surface reconstruction.
+        Running at depth d corresponds to solving on a voxel grid whose resolution is no larger than 2^d x 2^d x 2^d.
+        Note that since the reconstructor adapts the octree to the sampling density, the specified reconstruction depth is only an upper bound.
+        The default value for this parameter is 8.
+
+    full_depth: Integer
+
+        This integer specifies the depth beyond depth the octree will be adapted.
+        At coarser depths, the octree will be complete, containing all 2^d x 2^d x 2^d nodes.
+        The default value for this parameter is 5.
+
+    scale: float
+
+        This floating point value specifies the ratio between the diameter of the cube used for reconstruction and the diameter of the samples' bounding cube.
+        The default value is 1.1.
+
+    samples_per_node: float
+
+        This floating point value specifies the minimum number of sample points that should fall within an octree node as the octree construction is adapted to sampling density.
+        For noise-free samples, small values in the range [1.0 - 5.0] can be used.
+        For more noisy samples, larger values in the range [15.0 - 20.0] may be needed to provide a smoother, noise-reduced, reconstruction.
+        The default value is 1.0.
+
+    cg_depth: Integer
+
+        This integer is the depth up to which a conjugate-gradients solver will be used to solve the linear system.
+        Beyond this depth Gauss-Seidel relaxation will be used.
+        The default value for this parameter is 0.
+
+    enable_polygon_mesh: Bool
+        Enabling this flag tells the reconstructor to output a polygon mesh (rather than triangulating the results of Marching Cubes).
+        The default value for this parameter is False.
+
+    enable_density: Bool
+        Enabling this flag tells the reconstructor to output the estimated depth values of the iso-surface vertices
+        The default value for this parameter is False.
+
+
+
+    Returns
+    -------
+
+
+    faces: array-like
+        faces of the reconstructed mesh
+
+    vertices: array-like
+
+        vertices of the reconstructed mesh
+
+
+
+
+    """
 
     return _poisson_reconstruction(np.ascontiguousarray(points), np.ascontiguousarray(normals),
                                    depth, full_depth, scale, samples_per_node, cg_depth,
