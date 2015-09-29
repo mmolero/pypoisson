@@ -3,4 +3,5 @@
 .cpp
 .ply
 .xyz
-
+/build
+.egg-info
