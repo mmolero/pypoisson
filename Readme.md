@@ -12,8 +12,8 @@ for C++ GNU Compilation [PoissonRecon_v6_13](https://github.com/mmolero/PoissonR
 ##Installation 
 
 ```
-python setup.py build
-python setup.py install
+$ python setup.py build
+$ python setup.py install
 ```
 
 tested on Windows & Linux
