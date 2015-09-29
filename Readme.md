@@ -11,12 +11,12 @@ for C++ GNU Compilation [PoissonRecon_v6_13](https://github.com/mmolero/PoissonR
 
 ##Installation 
 
-    ```
+    ```python
     python setup.py build
 
     python setup.py install
 
-    ```
+    ```python
 
 
 tested on Windows & Linux
@@ -25,7 +25,7 @@ tested on Windows & Linux
 
 ##Example:
     
-    ```
+    ```python
     from pypoisson import poisson_reconstruction
     from ply_from_array import points_normals_from, ply_from_array
 
