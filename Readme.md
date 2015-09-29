@@ -15,15 +15,14 @@ for C++ GNU Compilation [PoissonRecon_v6_13](https://github.com/mmolero/PoissonR
     python setup.py build
 
     python setup.py install
-
-    ```python
+    ```
 
 
 tested on Windows & Linux
 
 
 
-##Example:
+##Example
     
     ```python
     from pypoisson import poisson_reconstruction
