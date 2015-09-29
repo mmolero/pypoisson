@@ -9,7 +9,6 @@ path = "PoissonRecon_v6_13/src/"
 files = [os.path.join(path,x) for x in os.listdir(path) if x.endswith(".cpp")]
 sources += files
 
-print sources
 
 
 exts = [Extension("pypoisson", sources,
@@ -18,12 +17,18 @@ exts = [Extension("pypoisson", sources,
         extra_link_args=["-fopenmp"]
         )]
 setup(
+    name='pypoisson',
+    version='0.10',
+    description='Poisson Surface Reconstruction Python Binding',
+    author='Miguel Molero-Armenta',
+    author_email='miguel.molero@gmail.com',
+    url='https://github.com/mmolero/pypoisson',
     cmdclass = {'build_ext': build_ext},
     ext_modules = exts, include_dirs = [numpy.get_include()]
+
 )
 
 
-
 """
-python setup_pypoisson.py build_ext --inplace --compiler=mingw32 -DMS_WIN64
+python setup.py build_ext --inplace --compiler=mingw32 -DMS_WIN64
 """
