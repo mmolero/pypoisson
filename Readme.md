@@ -22,7 +22,7 @@ tested on Windows & Linux
 ##Example
     
 
-```
+```python
 from pypoisson import poisson_reconstruction
 from ply_from_array import points_normals_from, ply_from_array
 
