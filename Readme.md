@@ -39,6 +39,8 @@ ply_from_array(vertices, faces, output_file=output_file)
  
 ```
 
+![](resources/horse_reconstruction.png)
+
 
 ##Development
 
