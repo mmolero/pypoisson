@@ -12,11 +12,11 @@ for C++ GNU Compilation [PoissonRecon_v6_13](https://github.com/mmolero/PoissonR
 ##Installation 
 
 ```
+$ git clone --recursive git://github.com/mmolero/pypoisson.git
 $ python setup.py build
 $ python setup.py install
 ```
-
-tested on Windows & Linux
+tested on Windows, OSX & Linux
 
 
 ##Example
