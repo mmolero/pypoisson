@@ -97,13 +97,13 @@ def poisson_reconstruction(points, normals, depth=8, full_depth=5, scale=1.1, sa
 
     """
 
-    return _poisson_reconstruction(np.ascontiguousarray(points), np.ascontiguousarray(normals),
+    return _poisson_reconstruction(np.ascontiguousarray(np.float64(points)), np.ascontiguousarray(np.float64(normals)),
                                    depth, full_depth, scale, samples_per_node, cg_depth,
                                    enable_polygon_mesh, enable_density)
 
 
 
-cdef _poisson_reconstruction(double[:, ::1] points, double[:, ::1] normals,
+cdef _poisson_reconstruction(np.float64_t[:, ::1] points, np.float64_t[:, ::1] normals,
                            int depth=8, int full_depth=5, double scale=1.10, double samples_per_node=1.0, double cg_depth=0.0,
                            bool enable_polygon_mesh=False, bool enable_density=False):
 
