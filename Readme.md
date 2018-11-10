@@ -19,7 +19,7 @@ $ python setup.py install
 tested on Windows, OSX & Linux
 
 
-##Example
+##go to the example folder
     
 
 ```python
