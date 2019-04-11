@@ -1,10 +1,11 @@
+#cython: language_level=3str
+
 cimport numpy as np
 import numpy as np
 from libcpp.vector cimport vector
 from libcpp.string cimport string
 from libc.stdlib cimport malloc, free
 from libcpp cimport bool
-
 
 np.import_array()
 
@@ -109,11 +110,11 @@ cdef _poisson_reconstruction(np.float64_t[:, ::1] points, np.float64_t[:, ::1] n
 
     cdef:
         char **c_argv
-        string arg_depth = str(depth)
-        string arg_full_depth = str(full_depth)
-        string arg_scale = str(scale)
-        string arg_samples_per_node = str(samples_per_node)
-        string arg_cg_depth = str(cg_depth)
+        string arg_depth = str(depth).encode()
+        string arg_full_depth = str(full_depth).encode()
+        string arg_scale = str(scale).encode()
+        string arg_samples_per_node = str(samples_per_node).encode()
+        string arg_cg_depth = str(cg_depth).encode()
 
 
     int_data.clear()
@@ -131,15 +132,16 @@ cdef _poisson_reconstruction(np.float64_t[:, ::1] points, np.float64_t[:, ::1] n
             mem_data[j + point_ncols + i *(point_ncols + normal_ncols)] = normals[i,j]
 
 
-    args = ["PoissonRecon", "--in", "none", "--out", "none", "--depth", arg_depth.c_str(),
-                            "--fullDepth",    arg_full_depth.c_str(), "--scale",   arg_scale.c_str(),
-                            "--samplesPerNode",  arg_samples_per_node.c_str(),
-                            "--cgDepth", arg_cg_depth.c_str()]
+    args = [b"PoissonRecon", b"--in", b"none", b"--out", b"none", b"--depth", arg_depth.c_str(),
+                            b"--fullDepth",    arg_full_depth.c_str(), b"--scale",   arg_scale.c_str(),
+                            b"--samplesPerNode",  arg_samples_per_node.c_str(),
+                            b"--cgDepth", arg_cg_depth.c_str()]
+
 
     if enable_polygon_mesh:
-        args += ["--polygonMesh"]
+        args += [b"--polygonMesh"]
     if enable_density:
-        args += ["--density"]
+        args += [b"--density"]
 
     c_argv = <char**> malloc(sizeof(char*) * len(args))
     for idx, s in enumerate(args):
@@ -152,8 +154,8 @@ cdef _poisson_reconstruction(np.float64_t[:, ::1] points, np.float64_t[:, ::1] n
 
 
     face_cols, vertex_cols = 3, 3
-    face_rows = int_data.size() / face_cols
-    vertex_rows = double_data.size() / vertex_cols
+    face_rows = int_data.size() // face_cols
+    vertex_rows = double_data.size() // vertex_cols
 
     cdef int *ptr_faces = &int_data[0]
     cdef double *ptr_vertices = &double_data[0]
