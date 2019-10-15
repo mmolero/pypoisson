@@ -1,5 +1,5 @@
 
-#Poisson Surface Reconstruction Python Binding 
+# Poisson Surface Reconstruction Python Binding 
 
 Poisson Surface Reconstruction v6.13 
 
@@ -9,17 +9,18 @@ for C++ GNU Compilation [PoissonRecon_v6_13](https://github.com/mmolero/PoissonR
 
 ---
 
-##Installation 
+## Installation 
 
-```
+```bash
 $ git clone --recursive git://github.com/mmolero/pypoisson.git
+$ cd pypoisson
 $ python setup.py build
 $ python setup.py install
 ```
 tested on Windows, OSX & Linux
 
 
-##go to the example folder
+## Go to the example folder
     
 
 ```python
@@ -42,7 +43,7 @@ ply_from_array(vertices, faces, output_file=output_file)
 ![](resources/horse_reconstruction.png)
 
 
-##Development
+## Development
 
 This python binding is still in progress, any feedback is welcome
 
