@@ -12,7 +12,7 @@ def ply_from_array(points, faces, output_file):
     num_points = len(points)
     num_triangles = len(faces)
 
-    header = '''ply
+    header = """ply
 format ascii 1.0
 element vertex {0}
 property float x
@@ -20,12 +20,13 @@ property float y
 property float z
 element face {1}
 property list uchar int vertex_indices
-end_header\n'''.format(num_points, num_triangles)
+end_header\n""".format(num_points, num_triangles)
+    
 
     with open(output_file,'wb') as f:
-        f.writelines(header)
-        for item in points:
-            f.write("{0:0.6f} {1:0.6f} {2:0.6f}\n".format(item[0],item[1], item[2]))
+        f.write(header.encode())
+        for idx, item in enumerate(points):
+            f.write("{0:0.6f} {1:0.6f} {2:0.6f}\n".format(item[0],item[1], item[2]).encode())
 
         for item in faces:
             number = len(item)
@@ -33,6 +34,7 @@ end_header\n'''.format(num_points, num_triangles)
             for elem in item:
                 row += " {0} ".format(elem)
             row += "\n"
-            f.write(row)
+            f.write(row.encode())
+
 
 
