@@ -1,3 +1,4 @@
-[submodule "src/PoissonRecon_v6_13"]	
-	path = src/PoissonRecon_v6_13	
+
+[submodule "src/PoissonRecon_v6_13"]
+	path = src/PoissonRecon_v6_13
 	url = https://github.com/mmolero/PoissonRecon_v6_13
