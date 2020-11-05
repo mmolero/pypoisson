@@ -4,10 +4,24 @@ __all__ = ["points_normals_from" ,"ply_from_array"]
 
 
 def points_normals_from(filename):
+    """
+    Return the normals from a filename.
+
+    Args:
+        filename: (str): write your description
+    """
     array = np.genfromtxt(filename)
     return array[:,0:3], array[:,3:6]
 
 def ply_from_array(points, faces, output_file):
+    """
+    Write an array to a vtk file.
+
+    Args:
+        points: (array): write your description
+        faces: (array): write your description
+        output_file: (str): write your description
+    """
 
     num_points = len(points)
     num_triangles = len(faces)
