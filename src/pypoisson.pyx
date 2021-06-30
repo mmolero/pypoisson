@@ -106,7 +106,7 @@ def poisson_reconstruction(points, normals, depth=8, full_depth=5, scale=1.1, sa
 
 cdef _poisson_reconstruction(np.float64_t[:, ::1] points, np.float64_t[:, ::1] normals,
                            int depth=8, int full_depth=5, double scale=1.10, double samples_per_node=1.0, double cg_depth=0.0,
-                           bool enable_polygon_mesh=False, bool enable_density=False):
+                           bool enable_polygon_mesh=False, bool enable_density=False, int threads=12):
 
     cdef:
         char **c_argv
@@ -115,6 +115,7 @@ cdef _poisson_reconstruction(np.float64_t[:, ::1] points, np.float64_t[:, ::1] n
         string arg_scale = str(scale).encode()
         string arg_samples_per_node = str(samples_per_node).encode()
         string arg_cg_depth = str(cg_depth).encode()
+        string arg_threads = str(threads).encode()
 
 
     int_data.clear()
@@ -135,7 +136,7 @@ cdef _poisson_reconstruction(np.float64_t[:, ::1] points, np.float64_t[:, ::1] n
     args = [b"PoissonRecon", b"--in", b"none", b"--out", b"none", b"--depth", arg_depth.c_str(),
                             b"--fullDepth",    arg_full_depth.c_str(), b"--scale",   arg_scale.c_str(),
                             b"--samplesPerNode",  arg_samples_per_node.c_str(),
-                            b"--cgDepth", arg_cg_depth.c_str()]
+                            b"--cgDepth", arg_cg_depth.c_str(), b"--threads", arg_threads.c_str()]
 
 
     if enable_polygon_mesh:
@@ -173,5 +174,3 @@ cdef _poisson_reconstruction(np.float64_t[:, ::1] points, np.float64_t[:, ::1] n
     double_data.clear()
 
     return faces.reshape(face_rows,face_cols), vertices.reshape(vertex_rows,vertex_cols)
-
-
