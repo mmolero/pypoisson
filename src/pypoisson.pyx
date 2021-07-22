@@ -15,8 +15,10 @@ cdef extern from "PoissonRecon_v6_13/src/PoissonReconLib.h":
     cdef vector[int] int_data
     cdef vector[double] mem_data
 
-def poisson_reconstruction(points, normals, depth=8, full_depth=5, scale=1.1, samples_per_node=1.0, cg_depth=0.0,
-                            enable_polygon_mesh=False, enable_density=False):
+def poisson_reconstruction(points, normals, depth=8, full_depth=5, scale=1.1,
+                           samples_per_node=1.0, cg_depth=0.0,
+                           enable_polygon_mesh=False, enable_density=False,
+                           nthreads=0, verbose=False):
 
     """
 
@@ -80,6 +82,11 @@ def poisson_reconstruction(points, normals, depth=8, full_depth=5, scale=1.1, sa
         Enabling this flag tells the reconstructor to output the estimated depth values of the iso-surface vertices
         The default value for this parameter is False.
 
+    nthreads: int
+        Number of omp threads to use. Default = 0 = all available threads.
+
+    verbose: Bool
+        Enable verbose mode.
 
 
     Returns
@@ -98,15 +105,25 @@ def poisson_reconstruction(points, normals, depth=8, full_depth=5, scale=1.1, sa
 
     """
 
-    return _poisson_reconstruction(np.ascontiguousarray(np.float64(points)), np.ascontiguousarray(np.float64(normals)),
-                                   depth, full_depth, scale, samples_per_node, cg_depth,
-                                   enable_polygon_mesh, enable_density)
+    return _poisson_reconstruction(np.ascontiguousarray(np.float64(points)),
+                                   np.ascontiguousarray(np.float64(normals)),
+                                   depth, full_depth, scale, samples_per_node,
+                                   cg_depth, enable_polygon_mesh,
+                                   enable_density, nthreads, verbose)
 
 
 
-cdef _poisson_reconstruction(np.float64_t[:, ::1] points, np.float64_t[:, ::1] normals,
-                           int depth=8, int full_depth=5, double scale=1.10, double samples_per_node=1.0, double cg_depth=0.0,
-                           bool enable_polygon_mesh=False, bool enable_density=False):
+cdef _poisson_reconstruction(np.float64_t[:, ::1] points,
+                             np.float64_t[:, ::1] normals,
+                             int depth=8,
+                             int full_depth=5,
+                             double scale=1.10,
+                             double samples_per_node=1.0,
+                             double cg_depth=0.0,
+                             bool enable_polygon_mesh=False,
+                             bool enable_density=False,
+                             int nthreads=0,
+                             bool verbose=False):
 
     cdef:
         char **c_argv
@@ -115,6 +132,7 @@ cdef _poisson_reconstruction(np.float64_t[:, ::1] points, np.float64_t[:, ::1] n
         string arg_scale = str(scale).encode()
         string arg_samples_per_node = str(samples_per_node).encode()
         string arg_cg_depth = str(cg_depth).encode()
+        string arg_nthreads = str(nthreads).encode()
 
 
     int_data.clear()
@@ -137,6 +155,11 @@ cdef _poisson_reconstruction(np.float64_t[:, ::1] points, np.float64_t[:, ::1] n
                             b"--samplesPerNode",  arg_samples_per_node.c_str(),
                             b"--cgDepth", arg_cg_depth.c_str()]
 
+    if verbose == True:
+        args += [b"--verbose"]
+
+    if nthreads > 0:
+        args += [b"--threads", arg_nthreads.c_str()]
 
     if enable_polygon_mesh:
         args += [b"--polygonMesh"]
